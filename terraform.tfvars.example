@@ -1,0 +1,34 @@
+# -----------------------------
+# Environment
+# -----------------------------
+environment     = "dev"
+project_name    = "private-faq-chatbot"
+allowed_origins = ["http://localhost"]
+
+# -----------------------------
+# Cognito (JWT Authorizer) - DO NOT COMMIT REAL VALUES
+# -----------------------------
+cognito_user_pool_id        = "us-east-1_REPLACE_ME"
+cognito_user_pool_client_id = "REPLACE_ME"
+
+# -----------------------------
+# Bedrock (Knowledge Base) - DO NOT COMMIT REAL VALUES
+# -----------------------------
+bedrock_kb_id    = "REPLACE_ME"
+bedrock_model_id = "amazon.nova-lite-v1:0"
+
+# -----------------------------
+# VPC
+# -----------------------------
+vpc_cidr = "10.10.0.0/16"
+public_subnet_cidrs = [
+  "10.10.1.0/24",
+  "10.10.2.0/24"
+]
+
+# -----------------------------
+# EC2 (Optional)
+# -----------------------------
+# ec2_instance_type = "t3.micro"
+# ec2_key_pair_name = "REPLACE_ME"
+# ssh_allowed_cidrs = ["YOUR_PUBLIC_IP/32"]
