@@ -31,8 +31,10 @@ cd terraform-aws-infra
 ```bash
 cp terraform.tfvars.example terraform.tfvars
 vim terraform.tfvars
+```
 
-###Required Configuration:
+**Required Configuration:**
+```bash
 environment     = "dev"
 project_name    = "your-project-chatbot"
 allowed_origins = ["http://localhost"]
