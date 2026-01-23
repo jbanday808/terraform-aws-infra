@@ -95,28 +95,64 @@ User
 
 
 **Deployed Resources:**
-- VPC with 8 subnets across 2 AZs (public, frontend, backend, database)
-- Public ALB for internet traffic
-- Internal ALB for backend communication
-- Auto Scaling Groups (Frontend: 2-4, Backend: 2-6 instances)
-- RDS PostgreSQL (Multi-AZ optional)
-- NAT Gateway (1 or 2 for HA)
-- Bastion host for SSH access
-- Secrets Manager for credentials
-- CloudWatch for logging
+- API Gateway HTTP API
+- API Gateway JWT Authorizer (Cognito)
+- API Gateway Lambda integration
+- API Gateway route: POST /chat
+- API Gateway default stage ($default, auto-deploy)
+- Lambda function (Python 3.12) + invoke permission from API Gateway
+- IAM role for Lambda
+- IAM policy for Bedrock invoke
+- IAM policy attachments (Basic logging + Bedrock policy)
+- VPC
+- Internet Gateway
+- 2 Public subnets (across 2 AZs)
+- Public route table + default route to IGW
+- Route table associations (2)
+- EC2 security group (SSH inbound + all outbound)
+- EC2 instance (Amazon Linux 2023)
+- Random string suffix (unique naming)
+- Archive packaging for Lambda (archive_file data source)
+- Availability zones data source
+- AMI lookup data source (Amazon Linux 2023)
 
-## Update Application
-
+## Update Infrastructure
 ```bash
-# Rebuild and push images
-docker build -t YOUR_USERNAME/goal-tracker-frontend:latest ./frontend
-docker push YOUR_USERNAME/goal-tracker-frontend:latest
-
-# Trigger instance refresh
-aws autoscaling start-instance-refresh \
-  --auto-scaling-group-name dev-goal-tracker-frontend-asg \
-  --region us-east-1
+terraform plan
+terraform apply -auto-approve
 ```
 
+## Troubleshooting
+
+**Check Lambda logs:**
+```bash
+aws logs tail /aws/lambda/<lambda-function-name> --follow --region us-east-1
+```
+
+**Check Terraform backend:**
+```bash
+aws s3 ls s3://tf-state-backend-dev-001
+aws dynamodb scan --table-name terraform-state-locks --region us-east-1
+```
+
+**Test API endpoint (example):**
+```bash
+curl -X POST "$API_ENDPOINT/chat" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <COGNITO_JWT_TOKEN>" \
+  -d '{"message":"Hello"}'
+```
+
+**SSH to instances via bastion:**
+```bash
+chmod 400 private-faq-chatbot-ec2-key.pem
+ssh -i private-faq-chatbot-ec2-key.pem ec2-user@EC2_PUBLIC_IP
+```
+
+## Cleanup
+
+```bash
+terraform destroy -auto-approve
+```
 
 
