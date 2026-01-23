@@ -61,3 +61,62 @@ ssh_allowed_cidrs = ["YOUR_PUBLIC_IP/32"]
 
 ```
 
+### 4. Deploy Infrastructure
+
+```bash
+terraform init
+terraform plan
+terraform apply -auto-approve
+```
+
+**Deployment Time:** ~5-10 minutes
+
+### 5. Access Application
+```bash
+# Get API Gateway endpoint
+terraform output api_endpoint
+
+# Get EC2 public IP
+terraform output ec2_public_ip
+
+# Get EC2 public DNS
+terraform output ec2_public_dns
+
+```
+
+## Architecture
+
+**Request Flow:**
+User
+  → Amazon Cognito (JWT Authentication)
+    → API Gateway (HTTP API)
+      → AWS Lambda
+        → Amazon Bedrock Knowledge Base
+
+
+**Deployed Resources:**
+- VPC with 8 subnets across 2 AZs (public, frontend, backend, database)
+- Public ALB for internet traffic
+- Internal ALB for backend communication
+- Auto Scaling Groups (Frontend: 2-4, Backend: 2-6 instances)
+- RDS PostgreSQL (Multi-AZ optional)
+- NAT Gateway (1 or 2 for HA)
+- Bastion host for SSH access
+- Secrets Manager for credentials
+- CloudWatch for logging
+
+## Update Application
+
+```bash
+# Rebuild and push images
+docker build -t YOUR_USERNAME/goal-tracker-frontend:latest ./frontend
+docker push YOUR_USERNAME/goal-tracker-frontend:latest
+
+# Trigger instance refresh
+aws autoscaling start-instance-refresh \
+  --auto-scaling-group-name dev-goal-tracker-frontend-asg \
+  --region us-east-1
+```
+
+
+
