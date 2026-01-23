@@ -55,17 +55,15 @@ resource "aws_iam_policy" "lambda_bedrock_policy" {
 
   policy = jsonencode({
     Version = "2012-10-17",
-    Statement = [
-      {
-        Sid    = "AllowBedrockInvoke",
-        Effect = "Allow",
-        Action = [
-          "bedrock:InvokeModel",
-          "bedrock:InvokeModelWithResponseStream"
-        ],
-        Resource = "*"
-      }
-    ]
+    Statement = [{
+      Sid    = "AllowBedrockInvoke",
+      Effect = "Allow",
+      Action = [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+      ],
+      Resource = "*"
+    }]
   })
 }
 
@@ -113,7 +111,9 @@ resource "aws_apigatewayv2_api" "http_api" {
   }
 }
 
-# JWT Authorizer (Cognito User Pool)
+# -----------------------------
+# JWT Authorizer (Cognito)
+# -----------------------------
 resource "aws_apigatewayv2_authorizer" "jwt" {
   api_id           = aws_apigatewayv2_api.http_api.id
   name             = "${local.name_prefix}-jwt"
@@ -126,7 +126,9 @@ resource "aws_apigatewayv2_authorizer" "jwt" {
   }
 }
 
-# Integrate API -> Lambda
+# -----------------------------
+# API Gateway → Lambda Integration
+# -----------------------------
 resource "aws_apigatewayv2_integration" "lambda" {
   api_id                 = aws_apigatewayv2_api.http_api.id
   integration_type       = "AWS_PROXY"
@@ -134,7 +136,9 @@ resource "aws_apigatewayv2_integration" "lambda" {
   payload_format_version = "2.0"
 }
 
-# Route: POST /chat
+# -----------------------------
+# Route: POST /chat (JWT protected)
+# -----------------------------
 resource "aws_apigatewayv2_route" "chat" {
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "POST /chat"
@@ -145,14 +149,30 @@ resource "aws_apigatewayv2_route" "chat" {
   authorizer_id      = aws_apigatewayv2_authorizer.jwt.id
 }
 
-# Default stage (auto deploy)
+# -----------------------------
+# Route: GET /health (NO AUTH)
+# -----------------------------
+resource "aws_apigatewayv2_route" "health" {
+  api_id    = aws_apigatewayv2_api.http_api.id
+  route_key = "GET /health"
+
+  target = "integrations/${aws_apigatewayv2_integration.lambda.id}"
+
+  authorization_type = "NONE"
+}
+
+# -----------------------------
+# Default Stage (auto deploy)
+# -----------------------------
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.http_api.id
   name        = "$default"
   auto_deploy = true
 }
 
+# -----------------------------
 # Allow API Gateway to invoke Lambda
+# -----------------------------
 resource "aws_lambda_permission" "allow_apigw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
