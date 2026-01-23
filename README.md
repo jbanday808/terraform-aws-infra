@@ -33,6 +33,7 @@ User
     → API Gateway (HTTP API)
       → AWS Lambda
         → Amazon Bedrock Knowledge Base
+---
 
 ## 🧱 Infrastructure Components
 
@@ -40,7 +41,9 @@ User
 - **EC2 instance** for admin / DevOps access  
 - **IAM roles and policies** following least-privilege principles  
 - **Remote Terraform backend** using S3 for state storage and DynamoDB for state locking
+---
 
+---
 ## 📁 Repository Structure
 
 - **terraform-aws-infra/** 
@@ -55,4 +58,5 @@ User
 - **├── lambda/
 - **│   └── app.py                 # Lambda handler
 - **└── README.md
+---
 
