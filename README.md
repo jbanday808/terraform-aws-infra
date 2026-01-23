@@ -25,8 +25,35 @@ Ensure the following are installed and configured:
 git clone https://github.com/jbanday808/terraform-aws-infra.git
 cd terraform-aws-infra
 ```
+### 3. Create the Lambda directory and file
 
-### 3. Configure Terraform
+```bash
+mkdir -p lambda
+touch lambda/app.py
+
+```
+**Lambda handler implementation:**
+```bash
+import json
+
+def handler(event, context):
+    return {
+        "statusCode": 200,
+        "headers": {
+            "content-type": "application/json"
+        },
+        "body": json.dumps({
+            "message": "Lambda is working"
+        })
+    }
+
+```
+**Purpose:**
+- This Lambda function acts as the backend handler for the API Gateway /chat route
+- It verifies end-to-end connectivity between API Gateway → Lambda
+- Serves as a baseline before integrating Amazon Bedrock inference logic
+  
+### 4. Configure Terraform
 
 ```bash
 cp terraform.tfvars.example terraform.tfvars
@@ -61,7 +88,7 @@ ssh_allowed_cidrs = ["YOUR_PUBLIC_IP/32"]
 
 ```
 
-### 4. Deploy Infrastructure
+### 5. Deploy Infrastructure
 
 ```bash
 terraform init
@@ -71,7 +98,7 @@ terraform apply -auto-approve
 
 **Deployment Time:** ~5-10 minutes
 
-### 5. Access Application
+### 6. Access Application
 ```bash
 # Get API Gateway endpoint
 terraform output api_endpoint
