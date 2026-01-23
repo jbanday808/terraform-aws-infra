@@ -35,6 +35,7 @@ User
         → Amazon Bedrock Knowledge Base
 
 ---
+---
 
 ## 🧱 Infrastructure Components
 
