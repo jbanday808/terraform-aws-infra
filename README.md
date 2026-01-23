@@ -5,7 +5,7 @@
 ![IaC](https://img.shields.io/badge/Infrastructure%20as%20Code-IaC-blue)
 ![CI](https://img.shields.io/badge/CI-Coming%20Soon-lightgrey)
 
-Production-ready **DevOps infrastructure** built with **Terraform on AWS**, implementing a secure **private AI-powered FAQ chatbot** using **Amazon Bedrock**, **Lambda**, **API Gateway**, **Cognito**, **EC2**, and **VPC**.
+Production-ready **DevOps infrastructure** built with **Terraform on AWS**, implementing a secure **private AI-powered FAQ chatbot** using **Amazon Bedrock**, **AWS Lambda**, **API Gateway**, **Amazon Cognito**, **EC2**, and **VPC**.
 
 ---
 
@@ -33,30 +33,14 @@ User
     → API Gateway (HTTP API)
       → AWS Lambda
         → Amazon Bedrock Knowledge Base
+
 ---
 
 ## 🧱 Infrastructure Components
 
-- **VPC** with public subnets  
-- **EC2 instance** for admin / DevOps access  
-- **IAM roles and policies** following least-privilege principles  
-- **Remote Terraform backend** using S3 for state storage and DynamoDB for state locking
----
+- VPC with public subnets  
+- EC2 instance for admin / DevOps access  
+- IAM roles and policies following least-privilege principles  
+- Remote Terraform backend using S3 for state storage and DynamoDB for state locking  
 
 ---
-## 📁 Repository Structure
-
-- **terraform-aws-infra/** 
-- **├── backend.tf                 # Remote state (S3 + DynamoDB)
-- **├── provider.tf                # AWS provider configuration
-- **├── main.tf                    # API Gateway, Lambda, Bedrock integration
-- **├── variables.tf               # Input variables
-- **├── terraform.tfvars.example   # Safe example variables (no secrets)
-- **├── vpc.tf                     # VPC, subnets, routing
-- **├── ec2.tf                     # EC2 instance + security group
-- **├── outputs.tf                 # Terraform outputs
-- **├── lambda/
-- **│   └── app.py                 # Lambda handler
-- **└── README.md
----
-
