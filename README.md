@@ -164,9 +164,13 @@ aws dynamodb scan --table-name terraform-state-locks --region us-east-1
 
 **Test API endpoint (example):**
 ```bash
-curl -X POST "$API_ENDPOINT/chat" \
+# Health (no auth)
+curl https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/health
+
+# Chat (JWT required)
+curl -X POST https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/chat \
+  -H "Authorization: Bearer <JWT>" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <COGNITO_JWT_TOKEN>" \
   -d '{"message":"Hello"}'
 ```
 
