@@ -1,47 +1,61 @@
-# terraform-aws-infra
+# terraform-aws-infra – Private AI FAQ Chatbot on AWS
 
-![Terraform](https://img.shields.io/badge/Terraform-1.0+-623CE4?logo=terraform)
-![AWS](https://img.shields.io/badge/AWS-Cloud-orange?logo=amazonaws)
-![IaC](https://img.shields.io/badge/Infrastructure%20as%20Code-IaC-blue)
-![CI](https://img.shields.io/badge/CI-Coming%20Soon-lightgrey)
-
-Production-ready **DevOps infrastructure** built with **Terraform on AWS**, implementing a secure **private AI-powered FAQ chatbot** using **Amazon Bedrock**, **AWS Lambda**, **API Gateway**, **Amazon Cognito**, **EC2**, and **VPC**.
+Private AI-powered FAQ chatbot infrastructure built with **Terraform on AWS**, using **Amazon Bedrock**, **AWS Lambda**, **API Gateway**, **Amazon Cognito**, **EC2**, and **VPC**.
 
 ---
 
-## 🚀 Project Overview
+## Quick Deployment
 
-This project demonstrates an **end-to-end DevOps workflow**:
+### 1. Prerequisites
 
-- Git-based version control and branching  
-- Infrastructure as Code (IaC) using Terraform  
-- Secure remote state management (S3 + DynamoDB)  
-- Cloud-native AI integration with Amazon Bedrock  
-- Full infrastructure lifecycle (deploy → destroy)  
+Ensure the following are installed and configured:
 
-The solution supports a **private Retrieval-Augmented Generation (RAG) chatbot**, protected by **JWT authentication via Amazon Cognito**.
-
----
-
-## 🏗️ Architecture
-
-### High-level flow
-
-```text
-User
-  → Amazon Cognito (JWT Authentication)
-    → API Gateway (HTTP API)
-      → AWS Lambda
-        → Amazon Bedrock Knowledge Base
+- AWS account
+- IAM user with required permissions
+- Terraform `>= 1.0`
+- AWS CLI configured
+- Git + GitHub account
+- Existing EC2 key pair
 
 ---
----
 
-## 🧱 Infrastructure Components
+### 2. Clone the Repository
 
-- VPC with public subnets  
-- EC2 instance for admin / DevOps access  
-- IAM roles and policies following least-privilege principles  
-- Remote Terraform backend using S3 for state storage and DynamoDB for state locking  
+```bash
+git clone https://github.com/jbanday808/terraform-aws-infra.git
+cd terraform-aws-infra
+```
 
----
+### 3. Configure Terraform
+
+```bash
+cp terraform.tfvars.example terraform.tfvars
+vim terraform.tfvars
+
+**Required Configuration:**
+environment     = "dev"
+project_name    = "your-project-chatbot"
+allowed_origins = ["http://localhost"]
+
+# Cognito (JWT Authentication)
+cognito_user_pool_id        = "us-east-1_XXXXXXXXX"
+cognito_user_pool_client_id = "xxxxxxxxxxxxxxxxxxxx"
+
+# Amazon Bedrock
+bedrock_kb_id    = "XXXXXXXXXX"
+bedrock_model_id = "amazon.nova-lite-v1:0"
+
+# VPC
+vpc_cidr = "10.10.0.0/16"
+public_subnet_cidrs = [
+  "10.10.1.0/24",
+  "10.10.2.0/24"
+]
+
+# EC2
+ec2_instance_type = "t3.micro"
+ec2_key_pair_name = "your-ec2-keypair-name"
+ssh_allowed_cidrs = ["YOUR_PUBLIC_IP/32"]
+
+```
+
