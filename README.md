@@ -154,5 +154,12 @@ ssh -i private-faq-chatbot-ec2-key.pem ec2-user@EC2_PUBLIC_IP
 ```bash
 terraform destroy -auto-approve
 ```
+**Key Learnings:**
+- Terraform remote backend configuration with S3 and DynamoDB
+- State locking and corruption recovery
+- Secure JWT authentication with Amazon Cognito
+- Serverless AI integration using Amazon Bedrock Knowledge Base (RAG)
+- AWS networking and IAM best practices
+- End-to-end DevOps lifecycle management
 
 
