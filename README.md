@@ -170,4 +170,35 @@ terraform destroy -auto-approve
 - Centralized logging and monitoring with CloudWatch
 - WAF protection for API Gateway
 
+## References
+
+- AWS Terraform Provider Documentation  
+  https://registry.terraform.io/providers/hashicorp/aws/latest/docs  
+
+- Terraform Documentation  
+  https://developer.hashicorp.com/terraform/docs  
+
+- Amazon Bedrock Documentation  
+  https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html  
+
+- Amazon Bedrock Knowledge Bases (RAG)  
+  https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html  
+
+- AWS Lambda Documentation  
+  https://docs.aws.amazon.com/lambda/latest/dg/welcome.html  
+
+- Amazon API Gateway HTTP API  
+  https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html  
+
+- Amazon Cognito User Pools (JWT Authentication)  
+  https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html  
+
+- Terraform S3 Backend with DynamoDB Locking  
+  https://developer.hashicorp.com/terraform/language/settings/backends/s3  
+
+- AWS IAM Best Practices  
+  https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html  
+
+- Amazon VPC Documentation  
+  https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html  
 
