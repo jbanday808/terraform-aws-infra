@@ -162,4 +162,12 @@ terraform destroy -auto-approve
 - AWS networking and IAM best practices
 - End-to-end DevOps lifecycle management
 
+**Future Improvements:**
+- GitHub Actions CI/CD pipeline
+- Private subnets with NAT Gateway
+- EC2 access via AWS SSM (no SSH)
+- Custom domain and HTTPS
+- Centralized logging and monitoring with CloudWatch
+- WAF protection for API Gateway
+
 
