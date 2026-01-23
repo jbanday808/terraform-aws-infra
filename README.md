@@ -22,7 +22,6 @@ The infrastructure supports a **private Retrieval-Augmented Generation (RAG) cha
 
 ### High-level flow
 
-```text
 User
   → Amazon Cognito (JWT Authentication)
     → API Gateway (HTTP API)
@@ -39,7 +38,7 @@ User
 
 ## 📁 Repository Structure
 
-```text
+```
 terraform-aws-infra/
 ├── backend.tf                 # Remote state (S3 + DynamoDB)
 ├── provider.tf                # AWS provider configuration
@@ -83,7 +82,7 @@ terraform-aws-infra/
 ```bash
 git clone https://github.com/jbanday808/terraform-aws-infra.git
 cd terraform-aws-infra
-
+---
 
 ### 2️⃣ Create local variables file
 
